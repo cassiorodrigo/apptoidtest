@@ -34,4 +34,4 @@ item3\
 
 The code and design should meet these requirements but be sufficiently flexible to allow for future extensibility. The code should be well structured, suitably commented, have error handling and be tested.
 
-Deadline: //2021 23:59
+Deadline: 06/08/2021 23:59
