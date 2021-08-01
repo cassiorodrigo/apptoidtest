@@ -9,6 +9,22 @@ class Cashier:
     Creates an cashier object. It requires either a list on the object creation
     or a string containing the name of the products passed through
     Cashier.from_string(<string in here>).
+
+    :example:
+    Usage examples passing a string:
+    new_cashier = Cashier.from_string("PriceBasket Apples Milk bread Soupsoup", year_week=30)
+    print(new_cashier)
+
+    or a list:
+
+    new_cashier1 = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
+    print(new_cashier1)
+
+    print method was rewritten to print the receipt itself.
+    repr method as standards
+
+
+
     """
     stock = ["Soup", "Bread", "Milk", "Apples"]
     prices = [0.65, 0.80, 1.30, 1.0]
@@ -35,7 +51,8 @@ class Cashier:
         total, discount_apples, discount_bread = self.apply_promotion()
         items_descriptions = "\n\t".join(self.basket)
         if discount_apples > 0 or discount_bread > 0:
-            offers_active =f'''Offers active:
+            offers_active = f'''
+            Offers active:
             Apples: -{currency(discount_apples)}
             Soup: -{currency(discount_bread)}'''
 
@@ -54,6 +71,11 @@ Items:
 
     @classmethod
     def from_string(cls, string_items, year_week=None):
+        if year_week is not None:
+            if type(string_items) != str:
+                raise TypeError("Please, pass a string to this classmethod")
+            if type(year_week) != int and year_week < 0:
+                raise ValueError("Week must be a positive integer")
         list_items = []
         for e in cls.stock:
             matches = re.finditer(e, string_items, re.IGNORECASE)
