@@ -48,14 +48,7 @@ class Cashier:
                 Press 0 to when done adding items
                 """))
                 if item == 0:
-                    # TODO arrumar as opções... duas vezes a letra errada não está dando certo
-                    confirmation = str(input("Are you done adding items?\n('y'/'n')\n"))
-                    while confirmation.strip().lower() in ['y', 'n']:
-                        if confirmation.strip().lower() == 'y':
-                            return self.subtotal_calc()
-                        elif confirmation.strip().lower() == 'n':
-                            break
-
+                    break
                 if item > 4:
                     print("Please, choose a number in the list")
                     # self.new_cart()
