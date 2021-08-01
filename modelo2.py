@@ -32,19 +32,23 @@ class Cashier:
         return f"Cashier({self.items_list})"
 
     def __str__(self):
-        promo_apple, promo_soup = self.valid_promotion()
-        if promo_soup or promo_apple:
+        total, discount_apples, discount_bread = self.apply_promotion()
+        items_descriptions = "\n\t".join(self.basket)
+        if discount_apples > 0 or discount_bread > 0:
             offers_active =f'''Offers active:
-            Apples: {promo_apple} -{currency(self.apply_promotion()[1])}
-            Soup: {promo_soup} -{currency(self.apply_promotion()[2])}'''
+            Apples: -{currency(discount_apples)}
+            Soup: -{currency(discount_bread)}'''
 
         else:
             offers_active = "(No offers avilable)"
         descriptive = f'''
-        Products in the basket: {self.items_string}
-        Subtotal: {currency(self.subtotal_calc())}
-        {offers_active}
-        Total: {currency(self.apply_promotion()[0])}
+        
+Products in the basket: {self.items_string}
+Subtotal: {currency(self.subtotal_calc())}
+{offers_active}
+Total: {currency(total)}
+Items:
+\t{items_descriptions}
 '''
         return descriptive
 
@@ -69,7 +73,6 @@ class Cashier:
         """
 
         subtotal = 0.0
-        print(self.basket)
         for product in self.basket:
             subtotal += self.product_price[product]
         return subtotal
