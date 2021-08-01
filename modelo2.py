@@ -7,9 +7,9 @@ class Cashier:
     stock = ["Soup", "Bread", "Milk", "Apples"]
     prices = [0.65, 0.80, 1.30, 1.0]
     product_price = dict(zip(stock, prices))
-    basket = []
 
     def __init__(self, items_list, year_week=None):
+        self.basket = []
         if year_week:
             if type(year_week) not in {int, str}:
                 raise TypeError("year_week refers to the week number of the year"
@@ -20,26 +20,23 @@ class Cashier:
                 self.basket.append(product)
 
     @classmethod
-    def from_string(cls, string_items):
+    def from_string(cls, string_items, year_week=None):
         list_items = []
         for e in cls.stock:
-            try:
-                list_items.append(
-                    string_items[re.search(e, string_items, re.IGNORECASE).span()[0]:re.search(
-                        e, string_items, re.IGNORECASE).span()[1]].title())
-            except Exception as err:
-                print(err)
-        return cls(list_items)
+            matches = re.finditer(e, string_items, re.IGNORECASE)
+            for match in matches:
+                try:
+                    list_items.append(string_items[match.span()[0]:match.span()[1]].title())
+                except Exception as err:
+                    print(err)
+        return cls(list_items, year_week)
 
     def subtotal_calc(self):
         subtotal = 0.0
+        print(self.basket)
         for product in self.basket:
             subtotal += self.product_price[product]
         return subtotal
-
-    @staticmethod
-    def testedeteste():
-        return 2
 
     def valid_promotion(self):
         this_week = date.today().isocalendar()[1]
@@ -54,7 +51,5 @@ class Cashier:
 
 
 if __name__ == "__main__":
-    new_cashier = Cashier.from_string("PriceBasket Apples Milk Bread Soup")
-    # new_cashier = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
-    print(new_cashier.basket)
-    print(new_cashier.subtotal_calc())
+    new_cashier = Cashier.from_string("PriceBasket Apples Milk Bread Soupsoup")
+    new_cashier1 = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
