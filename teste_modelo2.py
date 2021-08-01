@@ -5,16 +5,18 @@ from modelo2 import Cashier
 class TestModel2(unittest.TestCase):
 
     def setUp(self):
-        stock = ["Soup", "Bread", "Milk", "Apples"]
         cart2 = []
         cart = "Apples Milk Bread soupsoup"
         cart1 = "PriceBasket ApplesMilkbread"
         cart3 = ""
+        cart4 = 4
         self.new_cashier1 = Cashier.from_string(string_items=cart1, year_week=39)
         self.new_cashier = Cashier.from_string(cart, year_week=30)
         self.new_cashier2 = Cashier(cart2, year_week=29)
         self.new_cashier3 = Cashier(cart3)
         self.new_cashier4 = Cashier.from_string(cart3)
+        # self.new_cashier5 = Cashier.from_string(4, year_week=-1)
+        self.new_cashier5 = Cashier.from_string("soup soup bread", year_week=-1)
 
     def tearDown(self):
         pass
@@ -24,6 +26,7 @@ class TestModel2(unittest.TestCase):
         self.assertEqual(['Bread', 'Milk', 'Apples'], self.new_cashier1.basket)
         self.assertEqual([], self.new_cashier3.basket)
         self.assertEqual([], self.new_cashier4.basket)
+        self.assertRaises((TypeError, ValueError), self.new_cashier5)
 
     def test_subtotal(self):
 
@@ -44,6 +47,9 @@ class TestModel2(unittest.TestCase):
 
     def test_apply_promotion(self):
         self.assertAlmostEqual(3.9, self.new_cashier.apply_promotion()[0], 2)
+        self.assertAlmostEqual(0.1, self.new_cashier.apply_promotion()[1], 2)
+        self.assertAlmostEqual(0.0, self.new_cashier1.apply_promotion()[1], 2)
+        self.assertAlmostEqual(0.4, self.new_cashier.apply_promotion()[2], 2)
 
 
 if __name__ == "__main__":
