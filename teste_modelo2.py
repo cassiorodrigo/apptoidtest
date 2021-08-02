@@ -1,5 +1,6 @@
 import unittest
 from modelo2 import Cashier
+from datetime import date
 
 
 class TestModel2(unittest.TestCase):
@@ -11,12 +12,11 @@ class TestModel2(unittest.TestCase):
         cart3 = ""
         cart4 = 4
         self.new_cashier1 = Cashier.from_string(string_items=cart1, year_week=39)
-        self.new_cashier = Cashier.from_string(cart, year_week=30)
-        self.new_cashier2 = Cashier(cart2, year_week=29)
+        self.new_cashier = Cashier.from_string(cart, year_week=date.today().isocalendar()[1])
+        self.new_cashier2 = Cashier(cart2, year_week='29')
         self.new_cashier3 = Cashier(cart3)
         self.new_cashier4 = Cashier.from_string(cart3)
-        # self.new_cashier5 = Cashier.from_string(4, year_week=-1)
-        self.new_cashier5 = Cashier.from_string("soup soup bread", year_week=-1)
+        # self.new_cashier5 = Cashier.from_string("soup soup bread", year_week=-1)
 
     def tearDown(self):
         pass
@@ -26,7 +26,9 @@ class TestModel2(unittest.TestCase):
         self.assertEqual(['Bread', 'Milk', 'Apples'], self.new_cashier1.basket)
         self.assertEqual([], self.new_cashier3.basket)
         self.assertEqual([], self.new_cashier4.basket)
-        self.assertRaises((TypeError, ValueError), self.new_cashier5)
+        self.assertRaises((TypeError, ValueError), Cashier.from_string,4, -1)
+        self.assertRaises((TypeError, ValueError), Cashier.from_string,4, '30')
+        self.assertRaises((TypeError, ValueError), Cashier.from_string)
 
     def test_subtotal(self):
 
