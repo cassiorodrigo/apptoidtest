@@ -18,13 +18,11 @@ class Cashier:
     or a list:
 
     new_cashier1 = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
+        <obs.: item 'PriceBasket' will be ignored.>
     print(new_cashier1)
 
-    print method was rewritten to print the receipt itself.
-    repr method as standards
-
-
-
+    __str__ method was rewritten to print the receipt itself.
+    __repr__ method as standards
     """
     stock = ["Soup", "Bread", "Milk", "Apples"]
     prices = [0.65, 0.80, 1.30, 1.0]
@@ -50,12 +48,22 @@ class Cashier:
     def __str__(self):
         total, discount_apples, discount_bread = self.apply_promotion()
         items_descriptions = "\n\t".join(self.basket)
+
+        if discount_apples > 0:
+            string_discount_apples = f"Apples: -{currency(discount_apples)}\n"
+        else:
+            string_discount_apples = ""
+
+        if discount_bread > 0:
+            string_discount_bread = f"Bread: -{currency(discount_bread)}"
+        else:
+            string_discount_bread = ""
+
         if discount_apples > 0 or discount_bread > 0:
             offers_active = f'''
-            Offers active:
-            Apples: -{currency(discount_apples)}
-            Soup: -{currency(discount_bread)}'''
-
+    Offers active:
+    \t{string_discount_apples} {string_discount_bread}
+    '''
         else:
             offers_active = "(No offers avilable)"
         descriptive = f'''
@@ -73,7 +81,14 @@ Items:
     def from_string(cls, string_items, year_week=None):
         if year_week is not None:
             if type(string_items) != str:
-                raise TypeError("Please, pass a string to this classmethod")
+                raise TypeError(f"Type '{type(string_items).__name__}' not supported.\n"
+                                f"Please, pass a string to this classmethod")
+
+            if type(year_week) == str:
+                try:
+                    year_week = int(year_week)
+                except ValueError as verr:
+                    raise ValueError("Week must be a positive integer or a castable string")
             if type(year_week) != int and year_week < 0:
                 raise ValueError("Week must be a positive integer")
         list_items = []
@@ -144,8 +159,11 @@ Items:
 
 
 if __name__ == "__main__":
-    new_cashier = Cashier.from_string("PriceBasket Apples Milk bread Soupsoup", year_week=30)
+    new_cashier = Cashier.from_string("PriceBasket Apples Milk bread Soupsoup")
     new_cashier1 = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
-    print(new_cashier1)
+    print(new_cashier)
+
+
+
 
 
