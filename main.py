@@ -1,6 +1,7 @@
 from locale import LC_ALL, setlocale, currency
 import re
 from datetime import date
+import sys
 setlocale(LC_ALL, "en_ie")
 
 
@@ -76,6 +77,46 @@ Items:
 \t{items_descriptions}
 '''
         return descriptive
+
+    @classmethod
+    def from_sysarg(cls):
+        help_text = f'''
+This is the shopping cart instructions manual
+to use this program you will need Python3.6+ 
+
+to run the program, please, pass the number of each item in this order:
+"Soup"
+"Bread"
+"Milk"
+"Apples"
+
+The number of Items will be added to the your shopping cart and any offers will be processed.
+
+to see this help text, run 
+python3 main.py <number of Soup> <number of Bread Loafs> <number of Milk cartoons> <number of Apples> <number of year's 
+week>
+ 
+(or python in a virtual environment that runs python3.6+ by default: 
+python main.py <number of Soup> <number of Bread Loafs> <number of Milk cartoons> <number of Apples> <number of year's 
+week>)
+
+'''
+        if "-h" in sys.argv:
+            print(help_text)
+        else:
+
+            if len(sys.argv) > 5:
+                year_week = sys.argv[5]
+            else:
+                year_week=None
+            arguments = list(int(i) for i in sys.argv[1:5])
+            prod = ["Soup", "Bread", "Milk", "Apples"]
+            new_dic = dict(zip(prod,arguments))
+            new_generated_list = []
+            for key, value in new_dic.items():
+                new_generated_list.append(key*value)
+
+            return cls(items_list=new_generated_list, year_week=year_week)
 
     @classmethod
     def from_string(cls, string_items, year_week=None):
@@ -159,9 +200,13 @@ Items:
 
 
 if __name__ == "__main__":
+    new_shopcart = Cashier.from_sysarg()
+    print(new_shopcart)
+    '''
     new_shopcart = str(input("Which items do you want to buy today?\n"))
     new_cashier = Cashier.from_string(new_shopcart)
     print(new_cashier)
+    '''
     """
     to use with a passed python list, please, use te template bellow:
     new_cashier = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
