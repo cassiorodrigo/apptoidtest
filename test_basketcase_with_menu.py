@@ -1,5 +1,5 @@
 import unittest
-from main import Cashier
+from withmenu import Cashier
 from unittest.mock import patch
 
 

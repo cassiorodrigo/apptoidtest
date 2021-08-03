@@ -1,5 +1,5 @@
 import unittest
-from modelo2 import Cashier
+from main import Cashier
 from datetime import date
 
 
