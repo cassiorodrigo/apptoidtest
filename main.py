@@ -108,10 +108,10 @@ week>)
             if len(sys.argv) > 5:
                 year_week = sys.argv[5]
             else:
-                year_week=None
+                year_week = None
             arguments = list(int(i) for i in sys.argv[1:5])
             prod = ["Soup", "Bread", "Milk", "Apples"]
-            new_dic = dict(zip(prod,arguments))
+            new_dic = dict(zip(prod, arguments))
             new_generated_list = []
             for key, value in new_dic.items():
                 new_generated_list.append(key*value)
@@ -128,7 +128,7 @@ week>)
             if type(year_week) == str:
                 try:
                     year_week = int(year_week)
-                except ValueError as verr:
+                except ValueError:
                     raise ValueError("Week must be a positive integer or a castable string")
             if type(year_week) != int and year_week < 0:
                 raise ValueError("Week must be a positive integer")
@@ -211,5 +211,3 @@ if __name__ == "__main__":
     to use with a passed python list, please, use te template bellow:
     new_cashier = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
     """
-
-
