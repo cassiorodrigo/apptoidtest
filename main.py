@@ -130,7 +130,6 @@ You can use it with different parameters, passing a string of text writing the i
             for key, value in new_dic.items():
                 for _ in range(value):
                     new_generated_list.append(key)
-
             return cls(items_list=new_generated_list, year_week=year_week)
 
     @classmethod
