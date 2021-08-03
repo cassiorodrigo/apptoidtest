@@ -100,11 +100,24 @@ week>
 python main.py <number of Soup> <number of Bread Loafs> <number of Milk cartoons> <number of Apples> <number of year's 
 week>)
 
+You can use it with different parameters, passing a string of text writing the item N times such as:
+    
+    new_shopcart = str(input("Which items do you want to buy today?")) || new_shopcart = "Soup, Soup bread Apples"
+    (it will account for lack of spaces, upper or lower cases, and so on)
+    new_cashier = Cashier.from_string(new_shopcart)
+    print(new_cashier)
+    
+    or you can use as a module, passing a list of items in a pythonic list such as:    
+    
+    new_cashier1 = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
+    print(new_cashier1)
+    
+    Alternatively you can use the withmenu.py module as a sort of terminal menu. 
+
 '''
         if "-h" in sys.argv:
             print(help_text)
         else:
-
             if len(sys.argv) > 5:
                 year_week = sys.argv[5]
             else:
@@ -112,9 +125,11 @@ week>)
             arguments = list(int(i) for i in sys.argv[1:5])
             prod = ["Soup", "Bread", "Milk", "Apples"]
             new_dic = dict(zip(prod, arguments))
+            print(new_dic)
             new_generated_list = []
             for key, value in new_dic.items():
-                new_generated_list.append(key*value)
+                for _ in range(value):
+                    new_generated_list.append(key)
 
             return cls(items_list=new_generated_list, year_week=year_week)
 
