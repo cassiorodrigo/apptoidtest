@@ -125,7 +125,6 @@ You can use it with different parameters, passing a string of text writing the i
             arguments = list(int(i) for i in sys.argv[1:5])
             prod = ["Soup", "Bread", "Milk", "Apples"]
             new_dic = dict(zip(prod, arguments))
-            print(new_dic)
             new_generated_list = []
             for key, value in new_dic.items():
                 for _ in range(value):
@@ -224,4 +223,6 @@ if __name__ == "__main__":
     """
     to use with a passed python list, please, use te template bellow:
     new_cashier = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
+
     """
+
