@@ -1,6 +1,17 @@
 import unittest
 from main import Cashier
 from datetime import date
+import sys
+
+
+class ArgvArguments(object):
+    def __enter__(self):
+        lista_argumentos = [2,1,1,2]
+        for e in lista_argumentos:
+            sys.argv.append(e)
+        return self
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        sys.argv = [arg for arg in sys.argv]
 
 
 class TestModel2(unittest.TestCase):
@@ -16,7 +27,6 @@ class TestModel2(unittest.TestCase):
         self.new_cashier2 = Cashier(cart2, year_week='29')
         self.new_cashier3 = Cashier(cart3)
         self.new_cashier4 = Cashier.from_string(cart3)
-        # self.new_cashier5 = Cashier.from_string("soup soup bread", year_week=-1)
 
     def tearDown(self):
         pass
@@ -52,8 +62,14 @@ class TestModel2(unittest.TestCase):
         self.assertAlmostEqual(0.1, self.new_cashier.apply_promotion()[1], 2)
         self.assertAlmostEqual(0.0, self.new_cashier1.apply_promotion()[1], 2)
         self.assertAlmostEqual(0.4, self.new_cashier.apply_promotion()[2], 2)
+        # self.assertEqual(0.0, self.new_cashier.apply_promotion().discount_apples)
+
+    def test_from_sysarg(self):
+        with ArgvArguments() as avarg:
+            arguments = avarg
+        self.assertTrue(sys.argv, arguments)
+        self.assertEqual(Cashier(['Soup', 'Soup', 'Bread', 'Milk', 'Apples', 'Apples']).__str__(), self.new_cashier.from_sysarg().__str__())
 
 
 if __name__ == "__main__":
     unittest.main()
-
