@@ -5,7 +5,7 @@ from locale import LC_ALL, setlocale
 setlocale(LC_ALL, "en_ie")
 
 
-class Cashier:
+class Cashier_menu:
     """
     creates a class that will create an cashier object 
     to manage items in the basket, prices and promotions
@@ -30,6 +30,9 @@ class Cashier:
     price = [{"index": 1, "product": "Soup", "price": 0.65}, {"index": 2, "product": "Bread", "price": 0.80},
              {"index": 3, "product": "Milk", "price": 1.30}, {"index": 4, "product": "Apple", "price": 1.00}]
 
+    def __str__(self):
+        return self.create_receipt()
+
     def new_cart(self):
         """
         create a new cart in the comand line via numeric options menu.
@@ -51,7 +54,6 @@ class Cashier:
                     break
                 if item > 4:
                     print("Please, choose a number in the list")
-                    # self.new_cart()
                 for product in self.price:
                     if product["index"] == item:
                         self.basket_items.append(product["product"])
@@ -149,7 +151,7 @@ class Cashier:
 
 
 if __name__ == "__main__":
-    new_cashier = Cashier()
+    new_cashier = Cashier_menu()
     produtos = new_cashier.new_cart()
     receipt = new_cashier.create_receipt()
     print(receipt)

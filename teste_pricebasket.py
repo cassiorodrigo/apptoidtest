@@ -27,9 +27,13 @@ class TestModel2(unittest.TestCase):
         self.new_cashier2 = Cashier(cart2, year_week='29')
         self.new_cashier3 = Cashier(cart3)
         self.new_cashier4 = Cashier.from_string(cart3)
+        self.new_cashier5 = Cashier(["Soup", "Soup", "Soup"])
+        with ArgvArguments() as avarg:
+            self.arguments = avarg
 
     def tearDown(self):
-        pass
+        with ArgvArguments():
+            self.arguments = []
 
     def test_stringparse(self):
         self.assertEqual(["Soup", "Soup", "Bread", "Milk", "Apples"], self.new_cashier.basket)
@@ -65,10 +69,10 @@ class TestModel2(unittest.TestCase):
         # self.assertEqual(0.0, self.new_cashier.apply_promotion().discount_apples)
 
     def test_from_sysarg(self):
-        with ArgvArguments() as avarg:
-            arguments = avarg
-        self.assertTrue(sys.argv, arguments)
         self.assertEqual(Cashier(['Soup', 'Soup', 'Bread', 'Milk', 'Apples', 'Apples']).__str__(), self.new_cashier.from_sysarg().__str__())
+
+    def test_pass_list(self):
+        self.assertEqual(["Soup", "Soup", "Soup"], self.new_cashier5)
 
 
 if __name__ == "__main__":

@@ -2,6 +2,8 @@ from locale import LC_ALL, setlocale, currency
 import re
 from datetime import date
 import sys
+from withmenu import Cashier_menu
+import json
 setlocale(LC_ALL, "en_ie")
 
 
@@ -100,6 +102,7 @@ week>
 python main.py <number of Soup> <number of Bread Loafs> <number of Milk cartoons> <number of Apples> <number of year's 
 week>)
 
+<<<<<<< HEAD
 You can use it with different parameters, passing a string of text writing the item N times such as:
     
     new_shopcart = str(input("Which items do you want to buy today?")) || new_shopcart = "Soup, Soup bread Apples"
@@ -113,6 +116,10 @@ You can use it with different parameters, passing a string of text writing the i
     print(new_cashier1)
     
     Alternatively you can use the withmenu.py module as a sort of terminal menu. 
+=======
+If no argument is passed, you will be taken to a menu to choose how to pass those parameters.
+
+>>>>>>> 8dfd8b2 (implemented menu if no CLI arguments)
 
 '''
         if "-h" in sys.argv:
@@ -225,4 +232,92 @@ if __name__ == "__main__":
     new_cashier = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
 
     """
+
+    if len(sys.argv) > 1:
+        new_shopcart = Cashier.from_sysarg()
+        if new_shopcart is not None:
+            print(new_shopcart)
+    else:
+
+        options_lamb = lambda: int(input(f'''
+        Which method of input do you want to use?
+        1) String
+        2) Menu
+        3) Python List
+        0) Quit
+'''))
+        while True:
+            query = options_lamb()
+            use_again_query = lambda: str(input('Do you want to use it again? \n[y/n]'))
+            if query == 0:
+                exit('Done. Thank you')
+
+            if query == 1:
+
+                new_shopcart = str(input("Which items do you want to buy today?\n"))
+                new_cashier = Cashier.from_string(new_shopcart)
+                print(new_cashier)
+                use_again = use_again_query()
+                while use_again not in ['y', 'n']:
+                    print('Please type either "y" or "n"')
+                    use_again = use_again_query()
+
+                if use_again == 'y':
+                    continue
+
+                elif use_again == 'n':
+                    exit('Done. Thank you')
+
+            elif query == 2:
+
+                new_cashier_menu = Cashier_menu()
+                new_cashier_menu.basket_items = []
+                new_cashier_menu.new_cart()
+                print(new_cashier_menu.create_receipt())
+
+                use_again = use_again_query()
+                while use_again not in ['y', 'n']:
+                    print('Please type either "y" or "n"')
+                    use_again = use_again_query()
+
+                if use_again == 'y':
+                    continue
+                elif use_again == 'n':
+                    exit('Done. Thank you')
+
+            elif query == 3:
+                try:
+                    subquery = int(input(f'''
+    Do you want to pass the list manually or use the default one?
+    1) Default
+    2) New Python List
+    '''))
+                    if subquery == 1:
+                        new_cashier_list = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
+                        print(new_cashier_list)
+                    else:
+                        try:
+                            new_cart_list = (input(f'New list: '))
+                            new_cart_list = json.loads(new_cart_list)
+                            new_cashier_list = Cashier(new_cart_list)
+                            print(new_cashier_list)
+                        except ValueError as err:
+                            print(err)
+                except ValueError as err:
+                    print(err)
+                    print('Please type a positive integer number')
+                    continue
+                use_again = use_again_query()
+                while use_again not in ['y', 'n']:
+                    print('Please type either "y" or "n"')
+                    use_again = use_again_query()
+                if use_again == 'y':
+                    continue
+                elif use_again == 'n':
+                    exit('Done. Thank you')
+
+        """
+        to use with a passed python list, please, use te template bellow:
+        new_cashier = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
+        """
 

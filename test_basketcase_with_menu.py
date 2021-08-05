@@ -1,13 +1,13 @@
 import unittest
-from withmenu import Cashier
+from withmenu import Cashier_menu
 from unittest.mock import patch
 
 
 class TestBasket(unittest.TestCase):
 
     def setUp(self):
-        self.cashier = Cashier(week_number=30)
-        self.cashier2 = Cashier(week_number=29)
+        self.cashier = Cashier_menu(week_number=30)
+        self.cashier2 = Cashier_menu(week_number=29)
         self.cashier.basket_items = ["Soup", "Soup", "Bread", "Milk", "Apple"]
         self.cashier2.basket_items = ["Soup", "Bread", "Bread", "Milk", "Apple"]
 
