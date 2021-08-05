@@ -220,6 +220,7 @@ If no argument is passed, you will be taken to a menu to choose how to pass thos
 
 
 if __name__ == "__main__":
+
     new_shopcart = Cashier.from_sysarg()
     print(new_shopcart)
     '''
@@ -232,7 +233,6 @@ if __name__ == "__main__":
     new_cashier = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
 
     """
-
     if len(sys.argv) > 1:
         new_shopcart = Cashier.from_sysarg()
         if new_shopcart is not None:
@@ -320,4 +320,3 @@ if __name__ == "__main__":
         to use with a passed python list, please, use te template bellow:
         new_cashier = Cashier(["PriceBasket", "Apples", "Milk", "Bread"])
         """
-
